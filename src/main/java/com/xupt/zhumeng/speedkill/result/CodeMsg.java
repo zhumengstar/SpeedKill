@@ -1,4 +1,4 @@
-package com.xupt.zhumeng.result;
+package com.xupt.zhumeng.speedkill.result;
 
 public class CodeMsg {
     private int code;
@@ -7,6 +7,9 @@ public class CodeMsg {
     //通用异常
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(50100, "服务端异常");
+    /**
+     * 带参数错误码
+     */
     public static CodeMsg BIND_ERROR = new CodeMsg(50101, "参数校验异常:%s");
     public static CodeMsg REQUEST_ILLEGAL = new CodeMsg(50102, "请求非法");
 
@@ -29,8 +32,6 @@ public class CodeMsg {
     public static CodeMsg MS_FAIL = new CodeMsg(50502, "秒杀失败");
 
 
-
-
     private CodeMsg(int code, String msg) {
         this.code = code;
         this.msg = msg;
@@ -39,12 +40,16 @@ public class CodeMsg {
     public int getCode() {
         return code;
     }
+
     public String getMsg() {
         return msg;
     }
 
-    public CodeMsg fillArgs(Object...args) {
+
+    //带参数错错误码
+    public CodeMsg fillArgs(Object... args) {
         int code = this.code;
+        //将原始的msg填充参数形成新msg
         String message = String.format(this.msg, args);
         return new CodeMsg(code, message);
     }

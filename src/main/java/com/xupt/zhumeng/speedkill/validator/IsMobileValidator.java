@@ -22,10 +22,11 @@ public class IsMobileValidator implements ConstraintValidator<IsMobile, String> 
     public boolean isValid(String value, ConstraintValidatorContext context) {
         //如果允许为空 直接返回结果
         if (required) {
+            //true不允许为空
             //验证是否为合法手机号
             return ValidatorUtil.isMobile(value);
         } else {
-            //如果不允许为空
+            //允许为空
             //验证是否为空
             if (StringUtils.isEmpty(value)) {
                 return true;

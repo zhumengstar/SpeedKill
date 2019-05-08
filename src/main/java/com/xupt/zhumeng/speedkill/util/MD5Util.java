@@ -15,25 +15,51 @@ public class MD5Util {
         return DigestUtils.md5Hex(src);
     }
 
-    //把用户输入的密码转换成form表单应该提交的密码---MDd5(输入密码+固定salt)
+    /**
+     * 把用户输入的密码转换成form表单应该提交的密码---MDd5(输入密码+固定salt)
+     *
+     * @param inputPass
+     * @return
+     */
     public static String inputPassToFormPass(String inputPass) {
         String str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
         return md5(str);
     }
 
-    //把form表单应该提交的密码转换成数据库里的密码---MD5(表单密码+随机salt)
+    /**
+     * 把form表单应该提交的密码转换成数据库里的密码---MD5(表单密码+随机salt)
+     *
+     * @param formPass
+     * @param salt
+     * @return
+     */
     public static String formPassToDBPass(String formPass, String salt) {
         String str = "" + salt.charAt(0) + salt.charAt(2) + formPass + salt.charAt(5) + salt.charAt(4);
         return md5(str);
     }
 
-    //双重加密
+
+    /**
+     * 账号密码双重加密   输入密码转数据库密码
+     *
+     * @param inputPass 用户输入密码
+     * @param saltDB    用户的salt
+     * @return
+     */
     public static String inputPassToDBPass(String inputPass, String saltDB) {
-        //表单密码
+        //表单输入密码加密   固定salt
         String formPass = inputPassToFormPass(inputPass);
-        //数据库密码
+        //插入数据库密码加密  用户salt
         String dbPass = formPassToDBPass(formPass, saltDB);
         return dbPass;
+    }
+
+    public static void main(String[] args) {
+        /**
+         * 用户输入转为表单提交密码
+         */
+        System.out.println(inputPassToFormPass("zgh15985764543"));
+        System.out.println(inputPassToDBPass("hhyhhy","1a2b3c"));
     }
 
 }

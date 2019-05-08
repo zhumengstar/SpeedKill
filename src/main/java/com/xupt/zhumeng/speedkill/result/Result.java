@@ -1,4 +1,4 @@
-package com.xupt.zhumeng.result;
+package com.xupt.zhumeng.speedkill.result;
 
 public class Result<T> {
     private int code;
@@ -12,17 +12,19 @@ public class Result<T> {
     }
 
     private Result(CodeMsg cm) {
-        if(cm == null) {
+        if (cm == null) {
             return;
         }
         this.code = cm.getCode();
         this.msg = cm.getMsg();
 
     }
+
     //成功的时候调用
     public static <T> Result<T> success(T data) {
         return new Result<T>(data);
     }
+
     //失败的时候调用
     public static <T> Result<T> error(CodeMsg cm) {
         return new Result<T>(cm);

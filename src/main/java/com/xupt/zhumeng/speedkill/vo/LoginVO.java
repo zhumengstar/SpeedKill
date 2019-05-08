@@ -5,6 +5,9 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 接收登录信息的类
+ */
 public class LoginVO {
 
     @NotNull
