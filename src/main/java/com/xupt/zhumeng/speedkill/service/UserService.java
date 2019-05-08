@@ -64,6 +64,28 @@ public class UserService {
         }
 
         //生成token加入response
+        addCookie(response, user);
+        return true;
+    }
+
+
+    public User getByToken(HttpServletResponse response, String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+        //
+        User user = redisService.get(SpeedKey.token, token, User.class);
+
+        if (user != null) {
+            //用户存在才设置
+            //延迟token有效期，重新生成
+            addCookie(response, user);
+        }
+        return user;
+    }
+
+    private void addCookie(HttpServletResponse response, User user) {
+        //生成token加入response
         String token = UUIDUtil.uuid();
         redisService.set(SpeedKey.token, token, user);
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
@@ -71,13 +93,5 @@ public class UserService {
         cookie.setPath("/");
         log.info(token);
         response.addCookie(cookie);
-        return true;
-    }
-
-    public User getByToken(String token) {
-        if (StringUtils.isEmpty(token)) {
-            return null;
-        }
-        return redisService.get(SpeedKey.token, token, User.class);
     }
 }
