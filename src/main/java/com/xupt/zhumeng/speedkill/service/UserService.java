@@ -91,7 +91,7 @@ public class UserService {
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(SpeedKey.token.expireSeconds());
         cookie.setPath("/");
-        log.info(token);
+        log.info("AddToken:{}",token);
         response.addCookie(cookie);
     }
 }

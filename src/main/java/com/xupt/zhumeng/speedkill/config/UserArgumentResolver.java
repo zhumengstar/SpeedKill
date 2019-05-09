@@ -1,8 +1,11 @@
 package com.xupt.zhumeng.speedkill.config;
 
+import com.xupt.zhumeng.speedkill.controller.LoginController;
 import com.xupt.zhumeng.speedkill.entity.User;
 import com.xupt.zhumeng.speedkill.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 @Service//注入Service也必须由框架管理
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     //参数解析的顶级父类
+    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
+
 
     @Autowired
     UserService userService;
@@ -55,7 +60,6 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
 
         //param>cookie
-        assert request != null;
         String paramToken = request.getParameter(UserService.COOKIE_NAME_TOKEN);
         String cookieToken = getCookieValue(request, UserService.COOKIE_NAME_TOKEN);
         if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
@@ -75,6 +79,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(cookieName)) {
+
+                log.info("tokenFromBrowser:{}",cookie.getValue());
                 return cookie.getValue();
             }
         }

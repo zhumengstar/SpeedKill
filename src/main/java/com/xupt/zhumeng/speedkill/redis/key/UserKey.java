@@ -8,10 +8,15 @@ import com.xupt.zhumeng.speedkill.redis.BasePrefix;
  **/
 public class UserKey extends BasePrefix {
 
-    private UserKey(String prefix) {
+
+    public UserKey(String prefix) {
         super(prefix);
     }
 
-    public static UserKey getById = new UserKey("id");
-    public static UserKey getByName = new UserKey("name");
+    public UserKey(int expireSeconds, String prefix) {
+        super(expireSeconds, prefix);
+    }
+
+    public static UserKey getById = new UserKey(2000,"id");
+    public static UserKey getByName = new UserKey(2000,"name");
 }
