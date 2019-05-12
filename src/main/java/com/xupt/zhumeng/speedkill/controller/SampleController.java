@@ -1,6 +1,7 @@
 package com.xupt.zhumeng.speedkill.controller;
 
 import com.xupt.zhumeng.speedkill.entity.User;
+import com.xupt.zhumeng.speedkill.rabbitmq.MQSender;
 import com.xupt.zhumeng.speedkill.redis.RedisService;
 import com.xupt.zhumeng.speedkill.redis.key.UserKey;
 import com.xupt.zhumeng.speedkill.result.Result;
@@ -20,6 +21,43 @@ public class SampleController {
     @Autowired
     RedisService redisService;
 
+    @Autowired
+    MQSender mqSender;
+
+
+    @ResponseBody
+    @RequestMapping("/mq")
+    public Result<String> hello() {
+        mqSender.send("hello zgh....");
+        return Result.success("Hello world");
+    }
+    @ResponseBody
+    @RequestMapping("/mq/topic1")
+    public Result<String> mq1() {
+        mqSender.sendTopic("hello topic1....");
+        return Result.success("Hello world");
+    }
+    @ResponseBody
+    @RequestMapping("/mq/topic2")
+    public Result<String> mq2() {
+        mqSender.sendTopic("hello topic2....");
+        return Result.success("Hello world");
+    }
+
+    //swagger
+    @ResponseBody
+    @RequestMapping("/mq/fanout")
+    public Result<String> fanout() {
+        mqSender.sendFanout("hello topic2....");
+        return Result.success("Hello world");
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq/header")
+    public Result<String> header() {
+        mqSender.sendHeader("hello topic2....");
+        return Result.success("Hello world");
+    }
 
     @ResponseBody
     @RequestMapping("/redis/getById")
