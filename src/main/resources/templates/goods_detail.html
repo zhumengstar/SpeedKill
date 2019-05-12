@@ -50,7 +50,7 @@
                         <span th:if="${msStatus eq 2}">秒杀已结束</span>
                     </td>
                     <td>
-                        <form id="msForm" method="post" action="/speedkill/do_speedkill">
+                        <form id="msForm" method="post" action="/ms/do_ms">
                             <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>
                             <input type="hidden" name="goodsId" th:value="${goods.id}"/>
                         </form>

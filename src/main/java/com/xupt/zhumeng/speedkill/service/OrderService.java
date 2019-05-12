@@ -5,6 +5,8 @@ import com.xupt.zhumeng.speedkill.dao.OrderDao;
 import com.xupt.zhumeng.speedkill.entity.MsOrder;
 import com.xupt.zhumeng.speedkill.entity.OrderInfo;
 import com.xupt.zhumeng.speedkill.entity.User;
+import com.xupt.zhumeng.speedkill.redis.RedisService;
+import com.xupt.zhumeng.speedkill.redis.key.OrderKey;
 import com.xupt.zhumeng.speedkill.vo.GoodsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,13 @@ public class OrderService {
     @Autowired
     GoodsDao goodsDao;
 
-    public MsOrder getSpeedKillOrderByUserIdGoodsId(Long userId, Long goodsId) {
-        return orderDao.getMsOrderByUserIdGoodsId(userId, goodsId);
+    @Autowired
+    RedisService redisService;
+
+    public MsOrder getMsOrderByUserIdGoodsId(Long userId, Long goodsId) {
+//        return orderDao.getMsOrderByUserIdGoodsId(userId, goodsId);
+        return redisService.get(OrderKey.getMsOrderByUidGid, "" + userId + "_" + goodsId, MsOrder.class);
+
     }
 
     @Transactional
@@ -48,7 +55,12 @@ public class OrderService {
         msOrder.setUserId(user.getId());
         orderDao.insertMsOrder(msOrder);
 
+        redisService.set(OrderKey.getMsOrderByUidGid, "" + user.getId() + "_" + goodsVO.getId(), MsOrder.class);
 
         return orderInfo;
+    }
+
+    public OrderInfo getOrderById(long orderId) {
+        return orderDao.getOrderById(orderId);
     }
 }

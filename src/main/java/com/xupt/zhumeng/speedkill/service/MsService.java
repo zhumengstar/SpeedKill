@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @desc:
  **/
 @Service
-public class SpeedKillService {
+public class MsService {
 
     @Autowired
     GoodsService goodsService;
@@ -21,7 +21,7 @@ public class SpeedKillService {
     OrderService orderService;
 
     @Transactional
-    public OrderInfo speedKill(User user, GoodsVO goodsVO) {
+    public OrderInfo ms(User user, GoodsVO goodsVO) {
         //减少库存 下订单 写入秒杀订单
         goodsService.reduceStock(goodsVO);
         return orderService.createOrder(user, goodsVO);

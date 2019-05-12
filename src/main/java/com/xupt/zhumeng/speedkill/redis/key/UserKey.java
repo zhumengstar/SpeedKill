@@ -19,4 +19,5 @@ public class UserKey extends BasePrefix {
 
     public static UserKey getById = new UserKey(2000,"id");
     public static UserKey getByName = new UserKey(2000,"name");
+    public static UserKey token = new UserKey(2000,"token");
 }

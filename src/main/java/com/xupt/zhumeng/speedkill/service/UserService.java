@@ -6,6 +6,7 @@ import com.xupt.zhumeng.speedkill.entity.User;
 import com.xupt.zhumeng.speedkill.execption.GlobalException;
 import com.xupt.zhumeng.speedkill.redis.RedisService;
 import com.xupt.zhumeng.speedkill.redis.key.SpeedKey;
+import com.xupt.zhumeng.speedkill.redis.key.UserKey;
 import com.xupt.zhumeng.speedkill.result.CodeMsg;
 import com.xupt.zhumeng.speedkill.util.MD5Util;
 import com.xupt.zhumeng.speedkill.util.UUIDUtil;
@@ -34,8 +35,45 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
+    /**
+     * 数据库查询用户
+     *
+     * @param id
+     * @return
+     */
     public User getById(Long id) {
-        return userDao.getById(id);
+
+        //对象进行缓存
+        User user = redisService.get(UserKey.getById, "" + id, User.class);
+        if (user != null) {
+            return user;
+        }
+        user = userDao.getById(id);
+        if (user != null) {
+            redisService.set(UserKey.getById, "" + user.getId(), User.class);
+        }
+        return user;
+
+    }
+
+    public boolean updatePassword(String token, long id, String formPassword) {
+
+        User user = getById(id);
+        if (user == null) {
+            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+        }
+        //更新数据库
+        User toUpdateUser = new User();
+        toUpdateUser.setId(id);
+        toUpdateUser.setPassword(MD5Util.formPassToDBPass(formPassword, user.getSalt()));
+        //更新密码
+        userDao.update(user);
+        //处理缓存
+        redisService.delete(UserKey.getById, "" + user.getId());
+        user.setPassword(toUpdateUser.getPassword());
+        redisService.set(UserKey.token, token, user);
+
+        return true;
     }
 
     /**
@@ -91,7 +129,7 @@ public class UserService {
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(SpeedKey.token.expireSeconds());
         cookie.setPath("/");
-        log.info("AddToken:{}",token);
+        log.info("AddToken:{}", token);
         response.addCookie(cookie);
     }
 }

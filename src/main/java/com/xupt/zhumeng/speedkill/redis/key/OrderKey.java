@@ -7,7 +7,11 @@ import com.xupt.zhumeng.speedkill.redis.BasePrefix;
  * @desc:
  **/
 public class OrderKey extends BasePrefix {
-    public OrderKey(int expireSeconds, String prefix) {
-        super(expireSeconds, prefix);
+
+    public OrderKey(String prefix) {
+        super(prefix);
     }
+
+    public static OrderKey getMsOrderByUidGid = new OrderKey("moug");
+
 }

@@ -80,7 +80,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(cookieName)) {
 
-                log.info("tokenFromBrowser:{}",cookie.getValue());
+                log.info("tokenFromBrowser:{}", cookie.getValue());
                 return cookie.getValue();
             }
         }
