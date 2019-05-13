@@ -41,7 +41,7 @@ public class LoginController {
     @ResponseBody
     public Result<Boolean> doLogin(HttpServletResponse response, @Valid LoginVO loginVO) {
 
-        log.info(loginVO.toString());
+//        log.info(loginVO.toString());
 
 //        String passInput = loginVO.getPassword();
 //        String mobile = loginVO.getMobile();

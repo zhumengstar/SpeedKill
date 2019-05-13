@@ -1,0 +1,52 @@
+{
+  "groups": [
+    {
+      "name": "redis",
+      "type": "com.xupt.zhumeng.speedkill.redis.RedisConfig",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "redis.host",
+      "type": "java.lang.String",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig"
+    },
+    {
+      "name": "redis.password",
+      "type": "java.lang.String",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig"
+    },
+    {
+      "name": "redis.pool-max-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis.pool-max-total",
+      "type": "java.lang.Integer",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis.pool-max-wait",
+      "type": "java.lang.Integer",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "redis.timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "com.xupt.zhumeng.speedkill.redis.RedisConfig",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}

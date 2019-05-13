@@ -45,12 +45,13 @@ public class UserService {
 
         //对象进行缓存
         User user = redisService.get(UserKey.getById, "" + id, User.class);
+
         if (user != null) {
             return user;
         }
         user = userDao.getById(id);
         if (user != null) {
-            redisService.set(UserKey.getById, "" + user.getId(), User.class);
+            redisService.set(UserKey.getById, "" + user.getId(), user);
         }
         return user;
 
@@ -83,8 +84,8 @@ public class UserService {
      * @return
      */
     public boolean login(HttpServletResponse response, LoginVO loginVO) {
-        log.info(loginVO.getMobile());
-        log.info(loginVO.getPassword());
+//        log.info(loginVO.getMobile());
+//        log.info(loginVO.getPassword());
 
         if (loginVO == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
@@ -94,12 +95,12 @@ public class UserService {
 
         String mobile = loginVO.getMobile();
         String formPassword = loginVO.getPassword();
-        //判断手机号是否存在
+//        判断手机号是否存在
         User user = getById(Long.parseLong(mobile));
         if (user == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }
-        //验证密码
+//        验证密码
         String dbSalt = user.getSalt();
         String dbPass = user.getPassword();
 
@@ -107,6 +108,7 @@ public class UserService {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
 
+        log.info("addcookie");
         //生成token加入response
         addCookie(response, user);
         return true;

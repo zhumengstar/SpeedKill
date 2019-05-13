@@ -13,6 +13,8 @@ import com.xupt.zhumeng.speedkill.service.GoodsService;
 import com.xupt.zhumeng.speedkill.service.MsService;
 import com.xupt.zhumeng.speedkill.service.OrderService;
 import com.xupt.zhumeng.speedkill.vo.GoodsVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/ms")
 public class MsController implements InitializingBean {
+
+    private static final Logger log = LoggerFactory.getLogger(MsController.class);
+
     @Autowired
     RedisService redisService;
     @Autowired
@@ -60,12 +65,13 @@ public class MsController implements InitializingBean {
     }
 
     //静态化页面
-    @RequestMapping("/do_ms")
+    @PostMapping("/do_ms")
     public String doMs(Model model, User user, @RequestParam("goodsId") Long goodsId) {
 
         if (user == null) {
             return "login";
         }
+
 
         //判断是否还有秒杀商品库存
         GoodsVO goodsVO = goodsService.getGoodsVOByGoodsId(goodsId);
@@ -74,13 +80,19 @@ public class MsController implements InitializingBean {
             model.addAttribute("errmsg", CodeMsg.MS_OVER);
             return "ms_fail";
         }
+
+        log.info("ms");
         //判断是否已经秒杀到商品
         MsOrder order = orderService.getMsOrderByUserIdGoodsId(user.getId(), goodsVO.getId());
+
+//        log.info(order.toString());
+
         if (order != null) {
             model.addAttribute("errmsg", CodeMsg.REPEATE_MS);
             return "ms_fail";
         }
 
+        log.info("ms2");
         //减库存，下订单，写入秒杀订单
         OrderInfo orderInfo = msService.ms(user, goodsVO);
         model.addAttribute("orderInfo", orderInfo);

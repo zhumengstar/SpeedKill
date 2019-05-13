@@ -6,7 +6,7 @@ public class CodeMsg {
 
     //通用异常
     public static CodeMsg SUCCESS = new CodeMsg(0, "success");
-    public static CodeMsg SERVER_ERROR = new CodeMsg(50100, "服务端异常");
+    public static CodeMsg SERVER_ERROR = new CodeMsg(50100, "服务端---异常");
     /**
      * 带参数错误码
      */

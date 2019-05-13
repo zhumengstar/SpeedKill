@@ -39,9 +39,6 @@ public class RedisService {
 
             String str = jedis.get(realKey);
 
-
-            System.out.println("realKey:" + realKey);
-
             T t = stringToBean(str, clazz);
             return t;
         } finally {

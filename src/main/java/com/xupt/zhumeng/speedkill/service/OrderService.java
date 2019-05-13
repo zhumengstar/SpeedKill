@@ -30,9 +30,7 @@ public class OrderService {
     RedisService redisService;
 
     public MsOrder getMsOrderByUserIdGoodsId(Long userId, Long goodsId) {
-//        return orderDao.getMsOrderByUserIdGoodsId(userId, goodsId);
-        return redisService.get(OrderKey.getMsOrderByUidGid, "" + userId + "_" + goodsId, MsOrder.class);
-
+       return redisService.get(OrderKey.getMsOrderByUidGid, "" + userId + "_" + goodsId, MsOrder.class);
     }
 
     @Transactional
@@ -55,7 +53,7 @@ public class OrderService {
         msOrder.setUserId(user.getId());
         orderDao.insertMsOrder(msOrder);
 
-        redisService.set(OrderKey.getMsOrderByUidGid, "" + user.getId() + "_" + goodsVO.getId(), MsOrder.class);
+        redisService.set(OrderKey.getMsOrderByUidGid, "" + user.getId() + "_" + goodsVO.getId(), msOrder);
 
         return orderInfo;
     }
