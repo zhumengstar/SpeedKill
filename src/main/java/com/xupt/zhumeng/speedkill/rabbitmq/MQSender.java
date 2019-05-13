@@ -66,4 +66,12 @@ public class MQSender {
         amqpTemplate.convertAndSend(MQConfig.HEADERS_EXCHANGE,MQConfig.HEADER_QUEUE,obj);
     }
 
+
+    public void sendMsMessage(MsMessage mm) {
+        String msg = RedisService.beanToString(mm);
+        log.info("send message:" + msg);
+        amqpTemplate.convertAndSend(MQConfig.MS_QUEUE, msg);
+
+    }
+
 }

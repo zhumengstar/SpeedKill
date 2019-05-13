@@ -20,7 +20,12 @@ public class MQConfig {
     public static final String ROUTING_KEY2="topic.#";
     public static final String FANOUT_EXCHANGE="fanout.exchange";
     public static final String HEADERS_EXCHANGE="headers.exchange";
+    public static final String MS_QUEUE ="ms.queue";
 
+    @Bean
+    public Queue msQueue() {
+        return new Queue(MS_QUEUE, true);
+    }
 
     /**
      * direct模式 交换机Exchange

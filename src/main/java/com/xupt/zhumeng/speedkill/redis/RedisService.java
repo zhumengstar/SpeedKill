@@ -1,6 +1,7 @@
 package com.xupt.zhumeng.speedkill.redis;
 
 import com.alibaba.fastjson.JSON;
+import com.xupt.zhumeng.speedkill.redis.key.GoodsKey;
 import com.xupt.zhumeng.speedkill.redis.key.KeyPrefix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -175,11 +176,10 @@ public class RedisService {
      *
      * @param keyPrefix
      * @param key
-     * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Long decr(KeyPrefix keyPrefix, String key, Class<T> clazz) {
+    public <T> Long decr(KeyPrefix keyPrefix, String key) {
 
         Jedis jedis = null;
         try {

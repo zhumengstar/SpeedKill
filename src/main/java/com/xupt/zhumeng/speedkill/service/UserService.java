@@ -83,9 +83,15 @@ public class UserService {
      * @return
      */
     public boolean login(HttpServletResponse response, LoginVO loginVO) {
+        log.info(loginVO.getMobile());
+        log.info(loginVO.getPassword());
+
         if (loginVO == null) {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
+        log.info("after"+loginVO.getMobile());
+        log.info(loginVO.getPassword());
+
         String mobile = loginVO.getMobile();
         String formPassword = loginVO.getPassword();
         //判断手机号是否存在

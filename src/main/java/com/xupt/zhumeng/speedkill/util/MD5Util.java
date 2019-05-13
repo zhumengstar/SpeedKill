@@ -60,6 +60,7 @@ public class MD5Util {
          */
         System.out.println(inputPassToFormPass("zgh15985764543"));
         System.out.println(inputPassToDBPass("hhyhhy","1a2b3c"));
+        // 9703283a97896956691992522f85327d
     }
 
 }
